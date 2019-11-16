@@ -19,4 +19,6 @@ http://localhost:8080/swagger-ui.html
 
 The sytem has logging enabled on it as well. The log files are created on a daily basis and are under the logs directory of project root.
 
+Integration Test are in the InvoiceApplicationTests class.
+
 
