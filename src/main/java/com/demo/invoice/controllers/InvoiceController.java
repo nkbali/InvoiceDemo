@@ -16,21 +16,20 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.Executor;
-import java.util.concurrent.FutureTask;
+import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("invoices")
 public class InvoiceController {
 
-    InvoiceRepository invoiceRepository;
+    private final InvoiceRepository invoiceRepository;
 
-    ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
 
-    Logger logger;
+    private final Logger logger;
 
-    Executor executor;
+    private final Executor  executor;
 
     @Autowired
     public InvoiceController(InvoiceRepository invoiceRepository, ModelMapper modelMapper, Logger logger, Executor executor){
@@ -45,16 +44,25 @@ public class InvoiceController {
 
         Response response = new Response();
 
-        TestCallable callable1 = new TestCallable();
-        TestCallable callable2 = new TestCallable();
 
-        FutureTask<String> futureTask1 = new FutureTask<String>(callable1);
-        FutureTask<String> futureTask2 = new FutureTask<String>(callable2);
-
-        executor.execute(futureTask1);
-        executor.execute(futureTask2);
 
         try {
+
+            TestCallable callable1 = new TestCallable(3000);
+            TestCallable callable2 = new TestCallable(100);
+
+
+
+            CompletionService executorCompletionService= new ExecutorCompletionService<>(executor );
+            List<Future<String>> futures = new ArrayList<>();
+            futures.add(executorCompletionService.submit(callable1));
+            futures.add(executorCompletionService.submit(callable2));
+            for (int i=0; i<futures.size(); i++) {
+                String result = (String) executorCompletionService.take().get();
+                logger.info(result);
+                // Some processing here
+            }
+
             List<InvoiceDTO> invoiceDTOS = new ArrayList<>();
             logger.info("Fetching Invoices");
             List<Invoice> invoicesList = invoiceRepository.findAll();
