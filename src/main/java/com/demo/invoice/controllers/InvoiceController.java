@@ -1,5 +1,6 @@
 package com.demo.invoice.controllers;
 
+import com.demo.invoice.config.ThreadConfig;
 import com.demo.invoice.data.entities.Invoice;
 import com.demo.invoice.data.repositories.InvoiceRepository;
 import com.demo.invoice.models.Error;
@@ -31,12 +32,15 @@ public class InvoiceController {
 
     private final Executor  executor;
 
+    private final TestCallable testCallable;
+
     @Autowired
-    public InvoiceController(InvoiceRepository invoiceRepository, ModelMapper modelMapper, Logger logger, Executor executor){
+    public InvoiceController(InvoiceRepository invoiceRepository, ModelMapper modelMapper, Logger logger, Executor executor, TestCallable testCallable){
         this.invoiceRepository = invoiceRepository;
         this.modelMapper = modelMapper;
         this.logger = logger;
         this.executor = executor;
+        this.testCallable = testCallable;
     }
 
     @GetMapping
@@ -48,8 +52,8 @@ public class InvoiceController {
 
         try {
 
-            TestCallable callable1 = new TestCallable(3000);
-            TestCallable callable2 = new TestCallable(100);
+            Callable<String> callable1 = () -> testCallable.call();
+            Callable<String> callable2 = () -> testCallable.call();
 
 
 

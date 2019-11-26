@@ -8,16 +8,10 @@ import org.springframework.stereotype.Service;
 import java.util.Random;
 import java.util.concurrent.Callable;
 
-public class TestCallable implements Callable<String> {
+@Service
+public class TestCallable  {
 
-    long waitTime;
-
-    public TestCallable(long waitTime){
-        this.waitTime = waitTime;
-    }
-    @Override
     public String call() throws Exception {
-        Thread.sleep(waitTime);
         System.out.println(Thread.currentThread().getName());
         return Thread.currentThread().getName();
     }
