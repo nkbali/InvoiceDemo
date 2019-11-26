@@ -7,6 +7,7 @@ import com.demo.invoice.models.InvoiceDTO;
 import com.demo.invoice.models.Response;
 import com.demo.invoice.models.Result;
 import org.apache.commons.lang3.StringUtils;
+import org.checkerframework.checker.units.qual.A;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,25 +16,43 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.Executor;
+import java.util.concurrent.FutureTask;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("invoices")
 public class InvoiceController {
 
-    @Autowired
     InvoiceRepository invoiceRepository;
 
-    @Autowired
     ModelMapper modelMapper;
 
-    @Autowired
     Logger logger;
+
+    Executor executor;
+
+    @Autowired
+    public InvoiceController(InvoiceRepository invoiceRepository, ModelMapper modelMapper, Logger logger, Executor executor){
+        this.invoiceRepository = invoiceRepository;
+        this.modelMapper = modelMapper;
+        this.logger = logger;
+        this.executor = executor;
+    }
 
     @GetMapping
     public Response getInvoices() {
 
         Response response = new Response();
+
+        TestCallable callable1 = new TestCallable();
+        TestCallable callable2 = new TestCallable();
+
+        FutureTask<String> futureTask1 = new FutureTask<String>(callable1);
+        FutureTask<String> futureTask2 = new FutureTask<String>(callable2);
+
+        executor.execute(futureTask1);
+        executor.execute(futureTask2);
 
         try {
             List<InvoiceDTO> invoiceDTOS = new ArrayList<>();
