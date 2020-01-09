@@ -38,6 +38,10 @@ steps:
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
     sqAnalysisEnabled: true
 
+- task: SonarCloudPublish@1
+  inputs:
+    pollingTimeoutSec: '300'
+
 
 
 
