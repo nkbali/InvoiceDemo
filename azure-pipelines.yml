@@ -46,6 +46,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
+      Write-Host [System.Text.Encoding]::UTF8.GetBytes($env:SonarToken + ":")
       $token = [System.Text.Encoding]::UTF8.GetBytes($env:SonarToken + ":")
       $base64 = [System.Convert]::ToBase64String($token)
        
