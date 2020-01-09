@@ -7,7 +7,7 @@ trigger:
 - master
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'maven:3.6.3-jdk-11'
 
 steps:
 - task: Maven@3
