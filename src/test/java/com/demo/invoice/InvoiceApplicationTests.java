@@ -43,7 +43,7 @@ class InvoiceApplicationTests {
     @Test
     @Order(1)
     void contextLoads() {
-        assertThat(invoiceController).isNull();
+        assertThat(invoiceController).isNotNull();
     }
 
     @Test
@@ -71,16 +71,16 @@ class InvoiceApplicationTests {
         invoiceDTO.setLineItems(lineItemDTOS);
 
         ResponseEntity<Response> responseEntity = this.testRestTemplate.postForEntity("http://localhost:" + port + "/invoices", invoiceDTO, Response.class);
-        assertThat(responseEntity.getBody().getResponseCode()).isEqualTo(200);
-        assertThat(responseEntity.getBody().getResult().getInvoices().get(0).getId()).isGreaterThan(10);
+        assertThat(responseEntity.getBody().getResponseCode()).isEqualTo(201);
+        assertThat(responseEntity.getBody().getResult().getInvoices().get(0).getId()).isGreaterThan(0);
     }
 
     @Test
     @Order(3)
     void getInvoices(){
         ResponseEntity<Response> responseEntity = this.testRestTemplate.getForEntity("http://localhost:" + port + "/invoices", Response.class);
-        assertThat(responseEntity.getBody().getResponseCode()).isEqualTo(201);
-        assertThat(responseEntity.getBody().getResult().getInvoices().size()).isGreaterThan(100);
+        assertThat(responseEntity.getBody().getResponseCode()).isEqualTo(200);
+        assertThat(responseEntity.getBody().getResult().getInvoices().size()).isGreaterThan(0);
     }
 
     @Test
@@ -112,8 +112,8 @@ class InvoiceApplicationTests {
 
 
         responseEntity = this.testRestTemplate.getForEntity("http://localhost:" + port + "/invoices/" + invoiceId, Response.class);
-        assertThat(responseEntity.getBody().getResponseCode()).isEqualTo(201);
-        assertThat(responseEntity.getBody().getResult().getInvoices().size()).isEqualTo(10);
+        assertThat(responseEntity.getBody().getResponseCode()).isEqualTo(200);
+        assertThat(responseEntity.getBody().getResult().getInvoices().size()).isEqualTo(1);
     }
 
 }
