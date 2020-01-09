@@ -16,7 +16,7 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <sonar.token>e63ac0d20b17ff209a6171550c772a4ef2b90590</sonar.token>
+        <sonarToken>e63ac0d20b17ff209a6171550c772a4ef2b90590</sonarToken>
     </properties>
 
     <dependencies>

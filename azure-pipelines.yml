@@ -47,8 +47,8 @@ steps:
     targetType: 'inline'
     script: |
       [xml]$pomXml=Get-Content .\pom.xml
-      Write-Host $pomXml.project.properties.sonar.token
-      $token=$pomXml.project.properties.sonar.token
+      Write-Host $pomXml.project.properties.sonarToken
+      $token=$pomXml.project.properties.sonarToken
       Write-Host "##vso[task.setvariable variable=token]$token"
       $base64 = [System.Convert]::ToBase64String($token)
       $basicAuth = [string]::Format("Basic {0}", $base64)
