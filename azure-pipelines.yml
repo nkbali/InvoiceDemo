@@ -48,7 +48,7 @@ steps:
     script: |
       [xml]$pomXml=Get-Content .\pom.xml
       $token=$pomXml.project.properties.sonarToken
-      tokeBytes = [Text.Encoding]::Unicode.GetBytes($token)
+      $tokenBytes = [Text.Encoding]::Unicode.GetBytes($token)
       Write-Host $token
       $base64 = [System.Convert]::ToBase64String($tokenBytes)
       $basicAuth = [string]::Format("Basic {0}", $base64)
