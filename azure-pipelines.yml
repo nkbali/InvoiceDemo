@@ -31,4 +31,6 @@ steps:
     publishJUnitResults: true
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
 
+- task: SonarCloudAnalyze@1
+
 
