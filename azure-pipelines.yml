@@ -47,10 +47,10 @@ steps:
     targetType: 'inline'
     script: |
       [xml]$pomXml=Get-Content .\pom.xml
-      Write-Host $pomXml.project.properties.sonarToken
       $token=$pomXml.project.properties.sonarToken
-      Write-Host "##vso[task.setvariable variable=token]$token"
-      $base64 = [System.Convert]::ToBase64String($token)
+      tokeBytes = [Text.Encoding]::Unicode.GetBytes($token)
+      Write-Host $token
+      $base64 = [System.Convert]::ToBase64String($tokenBytes)
       $basicAuth = [string]::Format("Basic {0}", $base64)
       $headers = @{ Authorization = $basicAuth }
       $result = Invoke-RestMethod -Method Get -Uri https://sonarcloud.io/api/qualitygates/project_status?projectKey=com.demo:invoice -Headers $headers
