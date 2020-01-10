@@ -66,6 +66,10 @@ steps:
       throw "Quality gate failed"
       }
 
+- task: Docker@2
+  inputs:
+    containerRegistry: 'Azure Openshift Docker Registry'
+    command: 'login'
 
 
 
