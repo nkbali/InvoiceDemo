@@ -11,6 +11,7 @@ pool:
 
 steps:
 - task: Maven@3
+  displayName: Maven Compile
   inputs:
     mavenPomFile: 'pom.xml'
     options: -B compile -DskipTests=true
@@ -21,12 +22,14 @@ steps:
     publishJUnitResults: false
 
 - task: SonarCloudPrepare@1
+  displayName: Prepare Sonar Cloud
   inputs:
     SonarCloud: 'Sonar Cloud'
     organization: 'nkbali'
     scannerMode: 'Other'
 
 - task: Maven@3
+  displayName: Sonar Analysis
   inputs:
     mavenPomFile: 'pom.xml'
     options: -B org.jacoco:jacoco-maven-plugin:prepare-agent verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
@@ -39,10 +42,12 @@ steps:
     sqAnalysisEnabled: true
 
 - task: SonarCloudPublish@1
+  displayName: Sonar Publish
   inputs:
     pollingTimeoutSec: '300'
 
 - task: PowerShell@2
+  displayName: Check Quality Gate
   inputs:
     targetType: 'inline'
     script: |
