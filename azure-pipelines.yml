@@ -46,6 +46,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
+      Write-Host $(SonarToken)
       [xml]$pomXml=Get-Content .\pom.xml
       $token=$pomXml.project.properties.sonarToken
       $tokenBytes = [Text.Encoding]::Unicode.GetBytes($token)
