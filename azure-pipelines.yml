@@ -66,8 +66,23 @@ steps:
       throw "Quality gate failed"
       }
 
+- task: CopyFiles@2
+  displayName: Copy Jar File
+  inputs:
+    SourceFolder: '$(build.sourcesdirectory)'
+    Contents: 'target/*.jar'
+    TargetFolder: '$(build.artifactstagingdirectory)'
+
+- task: PublishBuildArtifacts@1
+  displayName: Publish Artifact
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
+
+
 - task: Docker@2
-  displayName: Docker Publish
+  displayName: Docker Build and Push
   inputs:
     containerRegistry: 'Azure Openshift Docker Registry'
     command: 'buildAndPush'
