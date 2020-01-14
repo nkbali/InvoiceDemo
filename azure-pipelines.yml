@@ -66,12 +66,36 @@ steps:
       throw "Quality gate failed"
       }
 
+- task: AzureCLI@2
+  displayName: Print Source Directory Contents
+  inputs:
+    azureSubscription: 'Visual Studio Enterprise with MSDN(39dc3320-048d-431c-af14-97c7c1b23ed7)'
+    scriptType: 'bash'
+    scriptLocation: 'inlineScript'
+    inlineScript: 'ls -ltrR $(build.sourcesdirectory)'
+
 - task: CopyFiles@2
   displayName: Copy Jar File
   inputs:
     SourceFolder: '$(build.sourcesdirectory)'
-    Contents: 'target/*.jar, **/Dockerfile'
+    Contents: 'target/*.jar'
     TargetFolder: '$(build.artifactstagingdirectory)'
+
+
+- task: CopyFiles@2
+  displayName: Copy Docker File
+  inputs:
+    SourceFolder: '$(build.sourcesdirectory)'
+    Contents: '/Dockerfile'
+    TargetFolder: '$(build.artifactstagingdirectory)'
+
+- task: AzureCLI@2
+  displayName: Print Target Directory Contents
+  inputs:
+    azureSubscription: 'Visual Studio Enterprise with MSDN(39dc3320-048d-431c-af14-97c7c1b23ed7)'
+    scriptType: 'bash'
+    scriptLocation: 'inlineScript'
+    inlineScript: 'ls -ltrR $(build.artifactstagingdirectory)'
 
 - task: PublishBuildArtifacts@1
   displayName: Publish Artifact
@@ -86,7 +110,7 @@ steps:
   inputs:
     containerRegistry: 'Azure Openshift Docker Registry'
     command: 'buildAndPush'
-    Dockerfile: '**/Dockerfile'
+    Dockerfile: 'Dockerfile'
     tags: |
       $(Build.BuildNumber)
       latest
