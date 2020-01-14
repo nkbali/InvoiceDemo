@@ -28,18 +28,6 @@ steps:
     organization: 'nkbali'
     scannerMode: 'Other'
 
-- task: Maven@3
-  displayName: Sonar Analysis
-  inputs:
-    mavenPomFile: 'pom.xml'
-    options: -B org.jacoco:jacoco-maven-plugin:prepare-agent verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
-    mavenOptions: '-Xmx3072m'
-    javaHomeOption: 'JDKVersion'
-    jdkVersionOption: '1.11'
-    jdkArchitectureOption: 'x64'
-    publishJUnitResults: true
-    testResultsFiles: '**/surefire-reports/TEST-*.xml'
-    sqAnalysisEnabled: true
 
 - task: SonarCloudPublish@1
   displayName: Sonar Publish
