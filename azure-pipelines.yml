@@ -86,7 +86,7 @@ steps:
   displayName: Copy Docker File
   inputs:
     SourceFolder: '$(build.sourcesdirectory)'
-    Contents: '/Dockerfile'
+    Contents: 'Dockerfile'
     TargetFolder: '$(build.artifactstagingdirectory)'
 
 - task: AzureCLI@2
