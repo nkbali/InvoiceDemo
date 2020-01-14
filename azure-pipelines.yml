@@ -82,6 +82,7 @@ steps:
   displayName: Docker Build and Push
   inputs:
     containerRegistry: 'Azure Openshift Docker Registry'
+    repository: 'test'
     command: 'buildAndPush'
     Dockerfile: 'Dockerfile'
     tags: |
