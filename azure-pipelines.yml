@@ -70,7 +70,14 @@ steps:
   displayName: Copy Jar File
   inputs:
     SourceFolder: '$(build.sourcesdirectory)'
-    Contents: 'target/*.jar, **/Dockerfile'
+    Contents: 'target/*.jar'
+    TargetFolder: '$(build.artifactstagingdirectory)'
+
+- task: CopyFiles@2
+  displayName: Copy Docker File
+  inputs:
+    SourceFolder: '$(build.sourcesdirectory)'
+    Contents: 'Dockerfile'
     TargetFolder: '$(build.artifactstagingdirectory)'
 
 - task: PublishBuildArtifacts@1
