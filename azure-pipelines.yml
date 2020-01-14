@@ -41,7 +41,7 @@ steps:
     script: |
       Write-Host $(SonarToken)
       [xml]$pomXml=Get-Content .\pom.xml
-      $token=$pomXml.project.properties.sonarToken
+      $token=$(SonarToken)
       $tokenBytes = [Text.Encoding]::Unicode.GetBytes($token)
       Write-Host $token
       $base64 = [System.Convert]::ToBase64String($tokenBytes)
