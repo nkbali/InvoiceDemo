@@ -82,7 +82,7 @@ steps:
   displayName: Docker Build and Push
   inputs:
     containerRegistry: 'Azure Openshift Docker Registry'
-    repository: 'madapi-dev/invoice'
+    repository: $(RespositoryName)
     command: 'buildAndPush'
     Dockerfile: 'Dockerfile'
     tags: |
