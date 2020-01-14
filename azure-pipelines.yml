@@ -73,6 +73,14 @@ steps:
     Contents: 'target/*.jar'
     TargetFolder: '$(build.artifactstagingdirectory)'
 
+- task: AzureCLI@2
+  displayName: Print Directory Contents
+  inputs:
+    azureSubscription: 'Visual Studio Enterprise with MSDN(39dc3320-048d-431c-af14-97c7c1b23ed7)'
+    scriptType: 'bash'
+    scriptLocation: 'inlineScript'
+    inlineScript: 'ls $(build.artifactstagingdirectory)'
+
 - task: CopyFiles@2
   displayName: Copy Docker File
   inputs:
